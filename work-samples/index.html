@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Work samples — Russell Jones</title>
+  <meta name="description" content="Backend work samples: Go microservices, PHP platform, open source." />
+  <style>
+    :root {
+      --fg: #1c1c1c;
+      --muted: #5a5a5a;
+      --border: #ddd;
+      --bg: #fafafa;
+      --code-bg: #f0f0f0;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 2rem 1.25rem 3rem;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 1rem;
+      line-height: 1.55;
+      color: var(--fg);
+      background: var(--bg);
+    }
+    main {
+      max-width: 38rem;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 1.35rem;
+      font-weight: 600;
+      margin: 0 0 0.35rem 0;
+      letter-spacing: -0.02em;
+    }
+    .lede {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin: 0 0 1.75rem 0;
+    }
+    h2 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin: 2rem 0 0.65rem 0;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+    h2:first-of-type {
+      border-top: 0;
+      padding-top: 0;
+    }
+    p { margin: 0 0 0.85rem 0; }
+    a { color: #0b4da2; text-decoration: underline; text-underline-offset: 2px; }
+    a:hover { text-decoration-thickness: 2px; }
+    ul { margin: 0 0 0.85rem 0; padding-left: 1.2rem; }
+    li { margin: 0.25rem 0; }
+    .meta {
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+      margin: 0.75rem 0 1rem 0;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.4rem 0.5rem;
+      border: 1px solid var(--border);
+      vertical-align: top;
+    }
+    th { background: #eee; font-weight: 600; }
+    code {
+      font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+      font-size: 0.88em;
+      background: var(--code-bg);
+      padding: 0.1em 0.35em;
+      border-radius: 3px;
+    }
+    footer {
+      margin-top: 2.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Work samples</h1>
+    <p class="lede">Russell Jones · Backend engineering (Go, PHP) · One page, primary repos only.</p>
+
+    <h2>North Cloud (Go)</h2>
+    <p class="meta"><a href="https://github.com/jonesrussell/north-cloud">github.com/jonesrussell/north-cloud</a> · <a href="https://northcloud.one">northcloud.one</a></p>
+    <p>Real-time content intelligence pipeline: crawl sources, store and classify documents, publish events to downstream consumers. Described upstream as microservices with separate PostgreSQL databases per service area, Elasticsearch for content indices, and Redis Pub/Sub for routing to subscribers (for example a social publisher consumer).</p>
+    <p>Representative stack from the public tree and docs:</p>
+    <ul>
+      <li><strong>Go</strong> services (source manager, crawler, classifier, publisher, pipeline, search, auth, index manager, and others)</li>
+      <li><strong>PostgreSQL</strong> and <strong>PL/pgSQL</strong> across services</li>
+      <li><strong>Redis</strong> Pub/Sub and <strong>Elasticsearch</strong></li>
+      <li><strong>Docker Compose</strong> for dev and prod compose files, <strong>Task</strong> for local workflows, tests, and lint</li>
+      <li><strong>JWT</strong> auth service, <strong>Nginx</strong> edge routing, <strong>MinIO</strong> where configured</li>
+      <li><strong>Observability</strong>: Grafana, Loki, Grafana Alloy, Pyroscope (per repository architecture notes)</li>
+      <li>Vue and TypeScript frontends for dashboard and search (collaboration-friendly boundary with API services)</li>
+    </ul>
+
+    <h3>Overlap with senior backend (PHP and Go, monetization-style platforms)</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Typical ask</th>
+          <th>Where it shows up here</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Go services and APIs</td>
+          <td>Multiple HTTP services, clear service boundaries, repository layout and README service table</td>
+        </tr>
+        <tr>
+          <td>Microservices, messaging</td>
+          <td>Many small services; Redis channels and publisher documentation</td>
+        </tr>
+        <tr>
+          <td>PostgreSQL design and performance</td>
+          <td>Per-service Postgres; PL/pgSQL present in language breakdown</td>
+        </tr>
+        <tr>
+          <td>Docker and CI-style discipline</td>
+          <td>Compose-based dev and prod paths; <code>task test</code> / <code>task lint</code> across services</td>
+        </tr>
+        <tr>
+          <td>Reliability and observability</td>
+          <td>Logging and profiling docs; Grafana/Loki/Alloy/Pyroscope in architecture</td>
+        </tr>
+        <tr>
+          <td>PHP in the same ecosystem</td>
+          <td>PHP appears in the public language mix (smaller share than Go); primary PHP depth is Waaseyaa and Minoo below</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Waaseyaa (PHP) and Minoo (live app)</h2>
+    <p class="meta">
+      Framework: <a href="https://github.com/waaseyaa/framework">github.com/waaseyaa/framework</a> ·
+      App: <a href="https://github.com/waaseyaa/minoo">github.com/waaseyaa/minoo</a> ·
+      Site: <a href="https://minoo.live">minoo.live</a>
+    </p>
+    <p><strong>Waaseyaa</strong> is an entity-first PHP stack built on Symfony components (alpha-stage framework; public description stresses CMS-style, data-driven applications and a layered architecture). It is the base for production applications in the Waaseyaa org.</p>
+    <p><strong>Minoo</strong> is the flagship public deployment: an Indigenous knowledge platform that aggregates structured cultural and language content. The published README states it is powered by Waaseyaa CMS and North Cloud ingestion, exposes JSON:API style routes and JSON Schema, ships PHPUnit unit and integration suites, and deploys to <strong>minoo.live</strong> via GitHub Actions and PHP Deployer with nginx and TLS.</p>
+    <p>Overlap with PHP-heavy backend roles: modern PHP 8.x, Composer, Symfony ecosystem patterns, API-first surfaces, automated tests gating deploy, and production operations documentation (nginx, php-fpm, releases).</p>
+
+    <h2>DDEV (open source)</h2>
+    <p class="meta"><a href="https://github.com/ddev/ddev">github.com/ddev/ddev</a></p>
+    <p>Contributor on <code>ddev/ddev</code>: merged pull requests in the Docker-based local toolchain (including test hardening and project-type additions) and ongoing participation in review threads. Listed on GitHub's contributor list for the repository. Same container-first habits as day-to-day service development.</p>
+
+    <h2>More code</h2>
+    <p class="meta"><a href="https://github.com/jonesrussell">github.com/jonesrussell</a> · <a href="https://jonesrussell.github.io">jonesrussell.github.io</a></p>
+    <p>Additional public repositories and writing live on the profile and personal site; this page stays short on purpose.</p>
+
+    <footer>
+      Static page for hiring context. Intended URL: <code>jonesrussell.github.io/work-samples/</code> · Source in Cowork workspace under <code>drafts/work-samples/</code>.
+    </footer>
+  </main>
+</body>
+</html>
