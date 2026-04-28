@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Work samples — Russell Jones</title>
+  <title>Work samples · Russell Jones</title>
   <meta name="description" content="Backend work samples: Go microservices, PHP platform, open source." />
   <style>
     :root {
@@ -106,6 +106,7 @@
       <li><strong>Observability</strong>: Grafana, Loki, Grafana Alloy, Pyroscope (per repository architecture notes)</li>
       <li>Vue and TypeScript frontends for dashboard and search (collaboration-friendly boundary with API services)</li>
     </ul>
+    <p><strong>Development practice:</strong> active work runs on Spec-Driven Development via <a href="https://pypi.org/project/spec-kitty-cli/">Spec Kitty</a>. Features and tasks live in a kanban with git-worktree isolation, agent behavior is constrained by <code>SKILL.md</code> schemas, and every task produces a reviewable artifact (PR, doc, or fix) that goes through normal code review.</p>
 
     <h3>Overlap with senior backend (PHP and Go, monetization-style platforms)</h3>
     <table>
@@ -152,10 +153,35 @@
     <p><strong>Waaseyaa</strong> is an entity-first PHP stack built on Symfony components (alpha-stage framework; public description stresses CMS-style, data-driven applications and a layered architecture). It is the base for production applications in the Waaseyaa org.</p>
     <p><strong>Minoo</strong> is the flagship public deployment: an Indigenous knowledge platform that aggregates structured cultural and language content. The published README states it is powered by Waaseyaa CMS and North Cloud ingestion, exposes JSON:API style routes and JSON Schema, ships PHPUnit unit and integration suites, and deploys to <strong>minoo.live</strong> via GitHub Actions and PHP Deployer with nginx and TLS.</p>
     <p>Overlap with PHP-heavy backend roles: modern PHP 8.x, Composer, Symfony ecosystem patterns, API-first surfaces, automated tests gating deploy, and production operations documentation (nginx, php-fpm, releases).</p>
+    <p><strong>Development practice:</strong> active work uses Spec-Driven Development via <a href="https://pypi.org/project/spec-kitty-cli/">Spec Kitty</a> (kanban + git-worktree isolation, <code>SKILL.md</code> schemas constraining agent behavior, reviewable artifacts per task).</p>
 
-    <h2>DDEV (open source)</h2>
-    <p class="meta"><a href="https://github.com/ddev/ddev">github.com/ddev/ddev</a></p>
-    <p>Contributor on <code>ddev/ddev</code>: merged pull requests in the Docker-based local toolchain (including test hardening and project-type additions) and ongoing participation in review threads. Listed on GitHub's contributor list for the repository. Same container-first habits as day-to-day service development.</p>
+    <h2>DDEV (upstream contributor)</h2>
+    <p class="meta"><a href="https://github.com/ddev/ddev">github.com/ddev/ddev</a> · 3.5k+ stars · Go / Docker / local PHP+Node dev environment</p>
+    <p><strong>Highlight:</strong> <a href="https://github.com/ddev/ddev/pull/8145">PR #8145, "perf: combined startup time optimizations"</a> (merged 2026-04-27 into v1.25.3, <a href="https://github.com/ddev/ddev/commit/bd6d75952f70efb4375cd877e9c87e1608ec4cf9">commit bd6d759</a>; +447/-132 across 9 files; closes upstream issue <a href="https://github.com/ddev/ddev/issues/8096">#8096</a> opened by project lead Randy Fay).</p>
+    <p>Measured on a PHP project with MariaDB + Redis + Adminer:</p>
+    <table>
+      <thead>
+        <tr><th>Metric</th><th>Before</th><th>After</th><th>Delta</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Warm <code>ddev start</code> (5-run avg)</td><td>35.91s</td><td>25.11s</td><td>-30%</td></tr>
+        <tr><td>Memory on cached run</td><td>~70MB</td><td>~35MB</td><td>-50%</td></tr>
+        <tr><td>CI suite, podman-rootless (maintainer-reported)</td><td>4h 01m 38s</td><td>3h 03m 57s</td><td>-24%</td></tr>
+        <tr><td>CI suite, nginx-fpm (maintainer-reported)</td><td>2h 00m 29s</td><td>1h 50m 20s</td><td>-8%</td></tr>
+      </tbody>
+    </table>
+    <p>Mechanism: parallel container health waits with optional service filter on <code>ContainersWait</code>; concurrent post-healthcheck phases (mount check, log-stderr, router start, global commands) via goroutines; SHA-256 fingerprint skip of global-command sync and full <code>docker compose build</code> when sources are unchanged; redundant <code>WriteDockerComposeYAML</code> call removed.</p>
+    <h3>Other merged PRs (2026)</h3>
+    <ul>
+      <li><a href="https://github.com/ddev/ddev/pull/8219">#8219</a>: first-class <code>wp-bedrock</code> project type with auto-detect via <code>config/application.php</code>, runtime <code>WP_HOME</code>, and bats quickstart test.</li>
+      <li><a href="https://github.com/ddev/ddev/pull/8176">#8176</a>: replaced baked-in <code>WP_HOME</code> with runtime <code>getenv('DDEV_SHARE_URL'/'DDEV_PRIMARY_URL')</code> so URL changes and tunnels propagate without regen.</li>
+      <li><a href="https://github.com/ddev/ddev/pull/8126">#8126</a>: in-memory migration of deprecated <code>composer_version: "1"</code> to 2.2 LTS with one-time warning.</li>
+      <li><a href="https://github.com/ddev/ddev/pull/8125">#8125</a>: router-log filtering so only <code>\bERR\b</code> lines trigger config-problem reports (WRN/debug noise no longer false-positives).</li>
+      <li><a href="https://github.com/ddev/ddev/pull/8123">#8123</a>: suppressed misleading <code>files_pull</code> warning when provider supplies its own <code>files_import_command</code> (for example Acquia).</li>
+      <li><a href="https://github.com/ddev/ddev/pull/8280">#8280</a>: shared test helper that resolves the repo-built ddev binary instead of silently falling back to <code>/usr/bin/ddev</code>.</li>
+      <li><a href="https://github.com/ddev/ddev/pull/6202">#6202</a> (2024): <code>ddev config --omit-containers=""</code> and FQDN/hostname variants now actually clear the corresponding key in <code>.ddev/config.yaml</code>.</li>
+    </ul>
+    <p>Filed RFC issue <a href="https://github.com/ddev/ddev/issues/8307">#8307</a> on AI-harness metadata for observable, measurable agent-assisted contributions (PR-template fingerprint and impact-map fields, CI rollup score).</p>
 
     <h2>More code</h2>
     <p class="meta"><a href="https://github.com/jonesrussell">github.com/jonesrussell</a> · <a href="https://jonesrussell.github.io">jonesrussell.github.io</a></p>
